@@ -1,0 +1,15 @@
+[
+  {
+    "id": "template1",
+    "name": "template1",
+    "description": "A simple HTML template.",
+    "htmlUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/index.html",
+    "cssUrls": [
+      "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/css/bootstrap.min.css",
+      "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/css/font-awesome.min.css",
+      "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/css/magnific-popup.css",
+      "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/css/style.css"
+    ],
+    "thumbnailUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/thumbnail/thumbnail.png"
+  }
+]
