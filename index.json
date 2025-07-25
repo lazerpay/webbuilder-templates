@@ -1,10 +1,26 @@
 [
-  {
-    "id": "template1",
-    "name": "template1",
-    "description": "A simple HTML template.",
-    "htmlUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/index.html",
-    "cssUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/styles.css",
-    "thumbnailUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/thumbnail.png"
-  }
+	{
+		"id": "template1",
+		"name": "Portfolio Website",
+		"description": "A portfolio website template for a creative developer.",
+		"htmlUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/index.html",
+		"cssUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/styles.css",
+		"thumbnailUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template1/thumbnail.png"
+	},
+	{
+		"id": "template2",
+		"name": "Ecommerce Landing Page",
+		"description": "A ecommerce landing page template.",
+		"htmlUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template2/index.html",
+		"cssUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template2/styles.css",
+		"thumbnailUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template2/thumbnail.png"
+	},
+	{
+		"id": "template3",
+		"name": "Finance Landing Page",
+		"description": "A finance landing page template.",
+		"htmlUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template3/index.html",
+		"cssUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template3/styles.css",
+		"thumbnailUrl": "https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template3/thumbnail.png"
+	}
 ]
