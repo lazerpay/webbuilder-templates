@@ -13,10 +13,12 @@ if (!fs.existsSync(TEMPLATES_DIR)) {
 	process.exit(1);
 }
 
+// Load or initialize index.json
 let indexJson = [];
 if (fs.existsSync(INDEX_JSON_PATH)) {
 	try {
-		indexJson = JSON.parse(fs.readFileSync(INDEX_JSON_PATH, "utf-8"));
+		const parsed = JSON.parse(fs.readFileSync(INDEX_JSON_PATH, "utf-8"));
+		indexJson = Array.isArray(parsed) ? parsed : [];
 	} catch (err) {
 		console.error("❌ Failed to parse existing index.json:", err);
 		process.exit(1);
@@ -32,74 +34,51 @@ const templateFolders = fs
 templateFolders.forEach((folderName) => {
 	const templatePath = path.join(TEMPLATES_DIR, folderName);
 	const htmlPath = path.join(templatePath, "index.html");
-	const imagesPath = path.join(templatePath, "images");
-	const cssPath = path.join(templatePath, "css");
-	const thumbnailPath = path.join(templatePath, "thumbnail", "thumbnail.png");
+	const cssPath = path.join(templatePath, "styles.css");
+	const thumbnailPath = path.join(templatePath, "thumbnail.png");
 
 	if (!fs.existsSync(htmlPath)) {
-		console.log(`⏩ Skipping ${folderName}: no index.html`);
+		console.log(`⏩ Skipping ${folderName}: index.html not found`);
 		return;
 	}
 
-	if (!fs.existsSync(imagesPath) || !fs.readdirSync(imagesPath).length) {
-		console.log(
-			`⏩ Skipping ${folderName}: images folder missing or empty`
-		);
-		return;
-	}
-
-	// ---- STEP 1: Update HTML references
-	const BASE_IMAGE_URL = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}/templates/${folderName}/images/`;
-	const BASE_CSS_URL = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}/templates/${folderName}/css/`;
+	// === Step 1: Rewrite URLs in HTML ===
+	const BASE_URL = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}/templates/${folderName}/`;
 
 	let html = fs.readFileSync(htmlPath, "utf-8");
 
-	// Replace image src
+	// Replace image references
 	html = html.replace(
-		new RegExp(`src=["']images/([^"']+)["']`, "g"),
-		`src="${BASE_IMAGE_URL}$1"`
+		/src=["']images\/([^"']+)["']/g,
+		`src="${BASE_URL}images/$1"`
 	);
 
-	// Replace background image urls
 	html = html.replace(
-		new RegExp(`url\\(['"]?images/([^"')]+)["']?\\)`, "g"),
-		`url('${BASE_IMAGE_URL}$1')`
+		/url\(['"]?images\/([^"')]+)['"]?\)/g,
+		`url('${BASE_URL}images/$1')`
 	);
 
-	// Replace <link rel="stylesheet" href="css/..."
+	// Replace styles.css reference
 	html = html.replace(
-		new RegExp(`href=["']css/([^"']+)["']`, "g"),
-		`href="${BASE_CSS_URL}$1"`
+		/href=["']styles\.css["']/g,
+		`href="${BASE_URL}styles.css"`
 	);
 
+	// Overwrite updated HTML
 	fs.writeFileSync(htmlPath, html);
-	console.log(`✅ Updated HTML for ${folderName}`);
+	console.log(`✅ Updated HTML in ${folderName}/index.html`);
 
-	// ---- STEP 2: Collect CSS URLs
-	let cssUrls = [];
-	if (fs.existsSync(cssPath)) {
-		const cssFiles = fs
-			.readdirSync(cssPath)
-			.filter((file) => file.endsWith(".css"));
-		cssUrls = cssFiles.map(
-			(file) =>
-				`https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}/templates/${folderName}/css/${file}`
-		);
-	}
-
-	// ---- STEP 3: Append to index.json if not already there
+	// === Step 2: Add to index.json ===
 	const id = folderName.toLowerCase();
-	const alreadyExists = indexJson.find((entry) => entry.id === id);
-	if (alreadyExists) {
-		console.log(
-			`🔁 Skipping index.json entry for ${folderName} (already exists)`
-		);
+	if (indexJson.find((entry) => entry.id === id)) {
+		console.log(`🔁 Skipping ${folderName}: already exists in index.json`);
 		return;
 	}
 
-	const htmlUrl = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}/templates/${folderName}/index.html`;
+	const htmlUrl = `${BASE_URL}index.html`;
+	const cssUrl = `${BASE_URL}styles.css`;
 	const thumbnailUrl = fs.existsSync(thumbnailPath)
-		? `https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}/templates/${folderName}/thumbnail/thumbnail.png`
+		? `${BASE_URL}thumbnail.png`
 		: "";
 
 	indexJson.push({
@@ -107,13 +86,13 @@ templateFolders.forEach((folderName) => {
 		name: folderName,
 		description: "A simple HTML template.",
 		htmlUrl,
-		cssUrls,
+		cssUrl,
 		thumbnailUrl,
 	});
 
 	console.log(`➕ Added ${folderName} to index.json`);
 });
 
-// ---- STEP 4: Write updated index.json
+// === Step 3: Write index.json ===
 fs.writeFileSync(INDEX_JSON_PATH, JSON.stringify(indexJson, null, 2));
 console.log("✅ index.json updated successfully.");
