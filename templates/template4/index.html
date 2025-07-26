@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediCare Plus - Advanced Healthcare Solutions</title>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template4/styles.css">
+    <link rel="stylesheet"
+        href="https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template4/styles.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap"
         rel="stylesheet">
@@ -27,6 +28,20 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
+                <a href="#" class="emergency-btn">🚨 Emergency</a>
+                <a href="#" class="btn btn-primary">Book Appointment</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="#services" onclick="closeMobileMenu()">Services</a></li>
+                <li><a href="#doctors" onclick="closeMobileMenu()">Doctors</a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-actions">
                 <a href="#" class="emergency-btn">🚨 Emergency</a>
                 <a href="#" class="btn btn-primary">Book Appointment</a>
             </div>
@@ -340,6 +355,36 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (window.innerWidth > 767) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>

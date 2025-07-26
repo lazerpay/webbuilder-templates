@@ -29,6 +29,20 @@
             <div class="nav-actions">
                 <button class="search-btn">🔍</button>
                 <button class="cart-btn">🛒 <span class="cart-count">3</span></button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="#products" onclick="closeMobileMenu()">Products</a></li>
+                <li><a href="#deals" onclick="closeMobileMenu()">Deals</a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-actions">
+                <button class="search-btn">🔍 Search</button>
+                <button class="cart-btn">🛒 Cart (3)</button>
             </div>
         </div>
     </nav>
@@ -264,6 +278,36 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (window.innerWidth > 767) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>

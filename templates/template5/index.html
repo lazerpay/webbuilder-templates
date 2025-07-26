@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, in   itial-scale=1.0">
     <title>Wanderlust Adventures - Discover the World</title>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template5/styles.css">
+    <link rel="stylesheet"
+        href="https://raw.githubusercontent.com/lazerpay/webbuilder-templates/main/templates/template5/styles.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -28,6 +29,20 @@
             </ul>
             <div class="nav-actions">
                 <a href="#" class="btn-search">🔍 Search</a>
+                <a href="#" class="btn btn-primary">Book Now</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="#destinations" onclick="closeMobileMenu()">Destinations</a></li>
+                <li><a href="#packages" onclick="closeMobileMenu()">Packages</a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-actions">
+                <a href="#" class="btn btn-secondary">🔍 Search</a>
                 <a href="#" class="btn btn-primary">Book Now</a>
             </div>
         </div>
@@ -427,6 +442,36 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (window.innerWidth > 767) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>
